@@ -4,7 +4,8 @@ using UnityEngine;
 using CustomizeController;
 using UnityEngine.UI;
 
-public class EnemyStatus : MonoBehaviour, IStatus {
+public class EnemyStatus : MonoBehaviour, IStatus
+{
     private float attackPower;
     private float attackModifer;
     private int health;
@@ -12,13 +13,13 @@ public class EnemyStatus : MonoBehaviour, IStatus {
     private int maxHealth;
 
     //ui display related value
-    private float dispalyUITimer;
-    private float dispalyDuration;
+    private float displayUITimer;
+    private float displayDuration;
     [SerializeField]
     GameObject HealthUI;
 
-    public float AttackPower{ get { return attackPower*attackModifer; }  } 
-    public int Health { get { return health; }  }
+    public float AttackPower { get { return attackPower * attackModifer; } }
+    public int Health { get { return health; } }
     public int MaxHealth { get { return maxHealth; } }
 
 
@@ -31,18 +32,20 @@ public class EnemyStatus : MonoBehaviour, IStatus {
     }
 
     // Use this for initialization
-    void Start () {
-        dispalyDuration = 1.0f;
-        dispalyUITimer = dispalyDuration;
+    void Start()
+    {
+        displayDuration = 1.0f;
+        displayUITimer = displayDuration;
         hideUI = true;
         maxHealth = 100;
         health = maxHealth;
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     int DamageVal(float inputVal)
     {
@@ -51,57 +54,45 @@ public class EnemyStatus : MonoBehaviour, IStatus {
         hideUI = false;
         Debug.Log("change show ui");
         //when hit&display is on, reset the timer keep showing ui;
-        dispalyUITimer = dispalyDuration;
+        displayUITimer = displayDuration;
         return returnVal;
     }
 
-    void UIDisplay()
+    void UIDisplay(bool unshow, GameObject uigo, float timer, float time)
     {
-        if (!hideUI)
-        {
-            HealthUI.SetActive(true);
-            try
-            {
-                UIValUpdate();
-            }
-            catch (System.Exception ex)
-            {
-
-                Debug.Log(ex.Message);
-                Debug.Log(ex.StackTrace);
-            }
-        }
-        else if (hideUI)
-        {
-            HealthUI.SetActive(false);
-        }
-        CustomizedTimer.AutoTrigger(ref hideUI, ref dispalyUITimer, dispalyDuration);
+        UIController.UIDisplayHandler(unshow, uigo);
+        CustomizedTimer.AutoTrigger(ref unshow, ref timer, time);
     }
 
     void UIValUpdate()
     {
-        var healthbar=HealthUI.transform.Find("Front").GetComponent<RectTransform>();
-        healthbar.sizeDelta = new Vector2(2.0f* ((float)health / (float)maxHealth),0.2f);
-        
+        var healthbar = HealthUI.transform.Find("Front").GetComponent<RectTransform>();
+        healthbar.sizeDelta = new Vector2(2.0f * ((float)health / (float)maxHealth), 0.2f);
+
     }
 
     void Die()
     {
         if (health <= 0)
         {
+
+            ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
+            GameManager.DeathHandler -= delegate { Die(); };
+            Debug.Log("this has triggered");
             Destroy(this.gameObject);
         }
     }
 
     private void OnEnable()
     {
-        GameManager.DeathHandler += Die;
-        ProjectileController.UIdisplay += UIDisplay;
+        GameManager.DeathHandler += delegate { Die(); };
+        ProjectileController.UIdisplay += delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
     }
 
     private void OnDisable()
     {
-        GameManager.DeathHandler -= Die;
-        ProjectileController.UIdisplay -= UIDisplay;
+
+        ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
+        GameManager.DeathHandler -= delegate { Die(); };
     }
 }

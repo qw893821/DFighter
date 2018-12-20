@@ -6,8 +6,6 @@ namespace CustomizeController
 {
     public delegate void ProjectileMoveDg();
     public delegate void UIDisplayDg();
-
-
     public delegate void RegisterDg();
 
     public class ProjectileController : MonoBehaviour
@@ -23,8 +21,9 @@ namespace CustomizeController
             if (PMoveDg != null)
                 PMoveDg();
             if (UIdisplay != null)
+            {
                 UIdisplay();
-            
+            }
         }
     }
 

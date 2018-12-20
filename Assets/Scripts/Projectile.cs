@@ -69,5 +69,10 @@ public class Projectile : MonoBehaviour,IProjectile {
             var hitES=other.gameObject.GetComponent<EnemyStatus>();
             hitES.Damaged(AttackPower);
         }
+        else if (other.tag=="Ground")
+        {
+            Debug.Log("hit ground");
+            Destroy(this.gameObject);
+        }
     }
 }
