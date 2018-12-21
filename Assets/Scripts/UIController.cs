@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class UIController  {
 
-	public static void UIDisplayHandler(bool unshow,GameObject uigo)
+	public static void UIDisplayHandler(bool unshow,GameObject uigo,string uiname,float currentVal,float maxVal,float normalSize)
     {
         if (!unshow)
         {
             uigo.SetActive(true);
             try
             {
-                UIResizer();
+                //change the x value of ui
+                var targetUI = uigo.transform.Find(uiname);
+                var orgVal = targetUI.GetComponent<RectTransform>().sizeDelta;
+                targetUI.GetComponent<RectTransform>().sizeDelta = new Vector2(UIResizer(currentVal, maxVal, normalSize), orgVal.y);
+                UIResizer(currentVal,maxVal, normalSize);
             }
             catch (System.Exception ex)
             {
@@ -26,8 +30,8 @@ public class UIController  {
         }
     }
 
-    private static void UIResizer()
+    private static float UIResizer(float currentVal,float maxVal,float normalSize)
     {
-
+        return normalSize*(currentVal / maxVal);
     }
 }

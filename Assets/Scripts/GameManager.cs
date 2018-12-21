@@ -7,24 +7,14 @@ namespace CustomizeController
     public delegate void DeathDg();
     public class GameManager : MonoBehaviour
     {
-        private GameManager _instance;
+        private static GameManager _instance;
 
-        public GameManager GM
-        {
-            get {
-                if (_instance == null) {
-                    _instance =new GameManager();
-                    return _instance;
-                }
-                else {
-                    return _instance;
-                };
-            }
-        }    
+        public static GameManager GM { get { return _instance; } }
+        
 
 
 
-        public static DeathDg DeathHandler;
+        public DeathDg DeathHandler;
 
         //public test val;
         public GameObject player;
@@ -34,6 +24,14 @@ namespace CustomizeController
         //test private target
         private GameObject mouseTarget;
 
+
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+        }
 
         private void Start()
         {

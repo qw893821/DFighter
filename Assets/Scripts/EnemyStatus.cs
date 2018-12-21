@@ -25,6 +25,9 @@ public class EnemyStatus : MonoBehaviour, IStatus
 
     float test;
 
+    //local delegate collection
+    UIDisplayDg uidgcollection;
+    DeathDg deathcollection;
 
     public void Damaged(float inputVal)
     {
@@ -39,7 +42,10 @@ public class EnemyStatus : MonoBehaviour, IStatus
         hideUI = true;
         maxHealth = 100;
         health = maxHealth;
-
+        uidgcollection = delegate { UIDisplay(hideUI, HealthUI,"Front",health,maxHealth,2.0f, displayUITimer, displayDuration); };
+        deathcollection = delegate { Die(); };
+        ProjectileController.UIdisplay += uidgcollection;
+        GameManager.GM.DeathHandler += deathcollection;
     }
 
     // Update is called once per frame
@@ -58,9 +64,9 @@ public class EnemyStatus : MonoBehaviour, IStatus
         return returnVal;
     }
 
-    void UIDisplay(bool unshow, GameObject uigo, float timer, float time)
+    void UIDisplay(bool unshow, GameObject uigo, string uiname, float currentVal, float maxVal, float normalSize, float timer, float time)
     {
-        UIController.UIDisplayHandler(unshow, uigo);
+        UIController.UIDisplayHandler(unshow, uigo,uiname,currentVal,maxVal,normalSize);
         CustomizedTimer.AutoTrigger(ref unshow, ref timer, time);
     }
 
@@ -76,23 +82,28 @@ public class EnemyStatus : MonoBehaviour, IStatus
         if (health <= 0)
         {
 
-            ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
-            GameManager.DeathHandler -= delegate { Die(); };
+            //ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
+            //GameManager.DeathHandler -= delegate { Die(); };
             Debug.Log("this has triggered");
             Destroy(this.gameObject);
         }
     }
 
-    private void OnEnable()
-    {
-        GameManager.DeathHandler += delegate { Die(); };
-        ProjectileController.UIdisplay += delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
-    }
+    //private void OnEnable()
+    //{
+        
+    //    //GameManager.DeathHandler += delegate { Die(); };
+    //    //ProjectileController.UIdisplay += delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
+    //    ProjectileController.UIdisplay += uidgcollection;
+    //    GameManager.GM.DeathHandler += deathcollection;
+    //}
 
     private void OnDisable()
     {
 
-        ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
-        GameManager.DeathHandler -= delegate { Die(); };
+        //ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
+        // GameManager.DeathHandler -= delegate { Die(); };
+        ProjectileController.UIdisplay -= uidgcollection;
+        GameManager.GM.DeathHandler -= deathcollection;
     }
 }
