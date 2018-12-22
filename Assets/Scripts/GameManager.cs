@@ -10,9 +10,9 @@ namespace CustomizeController
         private static GameManager _instance;
 
         public static GameManager GM { get { return _instance; } }
-        
 
 
+        public ItemCollection IteamCollection;
 
         public DeathDg DeathHandler;
 
@@ -23,7 +23,7 @@ namespace CustomizeController
 
         //test private target
         private GameObject mouseTarget;
-
+        Gear localitem;
 
         private void Awake()
         {
@@ -31,18 +31,26 @@ namespace CustomizeController
             {
                 _instance = this;
             }
+
+            
         }
 
         private void Start()
         {
             infoUI.SetActive(false);
+
+            //test local item
+            localitem = IteamCollection.RandomLoot();
         }
+
+
         // Update is called once per frame
         void Update()
         {
             if (DeathHandler != null)
                 DeathHandler();
             CameraFollow(cameraGO, player);
+            
         }
 
         void CameraFollow(GameObject camera,GameObject player)
