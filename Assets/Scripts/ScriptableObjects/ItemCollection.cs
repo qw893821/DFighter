@@ -13,7 +13,6 @@ public class ItemCollection : ScriptableObject {
     //loot a random item from list
     public Gear RandomLoot()
     {
-        Debug.Log(itemList.Count);
         var index = Random.Range(0, itemList.Count-1);
         
         Gear gear;

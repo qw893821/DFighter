@@ -4,13 +4,10 @@ using UnityEngine;
 using CustomizeController;
 using UnityEngine.UI;
 
-public class EnemyStatus : MonoBehaviour, IStatus
+public class EnemyStatus : MonoBehaviour,IStatus
 {
-    private float attackPower;
     private float attackModifer;
-    private int health;
     private bool hideUI;
-    private int maxHealth;
 
     //ui display related value
     private float displayUITimer;
@@ -18,10 +15,23 @@ public class EnemyStatus : MonoBehaviour, IStatus
     [SerializeField]
     GameObject HealthUI;
 
-    public float AttackPower { get { return attackPower * attackModifer; } }
-    public int Health { get { return health; } }
-    public int MaxHealth { get { return maxHealth; } }
+    public float AttackPower { get { return _char.AttackPower * attackModifer; } }
+    public int Health { get { return _char.Health; } }
+    public int MaxHealth { get { return _char.MaxHealth; } }
 
+    [SerializeField]
+    private Characters _char;
+
+    public Characters Char
+    {
+        get
+        {
+            return _char;
+        }
+
+        set
+        {    }
+    }
 
     float test;
 
@@ -31,18 +41,20 @@ public class EnemyStatus : MonoBehaviour, IStatus
 
     public void Damaged(float inputVal)
     {
-        health -= DamageVal(inputVal);
+        _char.Health -= DamageVal(inputVal);
     }
 
     // Use this for initialization
     void Start()
     {
+        //create a clone of enemy. this is required part. enemy should use the data but not sharing the same instance.
+        _char = Instantiate(_char);
         displayDuration = 1.0f;
         displayUITimer = displayDuration;
         hideUI = true;
-        maxHealth = 100;
-        health = maxHealth;
-        uidgcollection = delegate { UIDisplay(hideUI, HealthUI,"Front",health,maxHealth,2.0f, displayUITimer, displayDuration); };
+
+        //this part is goofy, need some change.
+        uidgcollection = delegate { UIDisplay(hideUI, HealthUI,"Front",_char.Health, _char.MaxHealth,2.0f, displayUITimer, displayDuration); };
         deathcollection = delegate { Die(); };
         ProjectileController.UIdisplay += uidgcollection;
         GameManager.GM.DeathHandler += deathcollection;
@@ -73,18 +85,18 @@ public class EnemyStatus : MonoBehaviour, IStatus
     void UIValUpdate()
     {
         var healthbar = HealthUI.transform.Find("Front").GetComponent<RectTransform>();
-        healthbar.sizeDelta = new Vector2(2.0f * ((float)health / (float)maxHealth), 0.2f);
+        healthbar.sizeDelta = new Vector2(2.0f * ((float)_char.Health / (float)_char.MaxHealth), 0.2f);
 
     }
 
     void Die()
     {
-        if (health <= 0)
+        if (_char.Health <= 0)
         {
-
+            GameManager.GM.Loot(transform.position);
             //ProjectileController.UIdisplay -= delegate { UIDisplay(hideUI, HealthUI, displayUITimer, displayDuration); };
             //GameManager.DeathHandler -= delegate { Die(); };
-            Debug.Log("this has triggered");
+            
             Destroy(this.gameObject);
         }
     }

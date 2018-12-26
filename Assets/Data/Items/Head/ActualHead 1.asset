@@ -9,9 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 085c6d2be62cc004c95cde1a94ad1ea0, type: 3}
-  m_Name: ActualHead 2
+  m_Name: ActualHead 1
   m_EditorClassIdentifier: 
-  itemName: head2
+  itemName: head1
   armorType: 0
-  strength: 0
-  inteligence: 0
+  icon: {fileID: 21300026, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
+  strength: 5
+  inteligence: 10

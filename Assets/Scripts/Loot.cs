@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Loot : MonoBehaviour {
 
     private Gear _gear;
-
+    [SerializeField]
+    private ItemCollection iteamCollection;
     public Gear Gear
     {
         get { return _gear; }
@@ -14,20 +15,14 @@ public class Loot : MonoBehaviour {
 
     private void Start()
     {
-        _gear = CustomizeController.GameManager.GM.IteamCollection.RandomLoot();
+        _gear = iteamCollection.RandomLoot();
+        _gear = Instantiate(_gear);
+        transform.GetComponent<SpriteRenderer>().sprite = _gear.icon;
     }
 
     private void Update()
     {
-        try
-        {
-            Debug.Log(_gear.itemName);
-        }
-        catch (System.Exception ex)
-        {
-
-            Debug.Log(ex.Message);
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D col)

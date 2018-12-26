@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthUI: {fileID: 1725189174389860}
+  _char: {fileID: 11400000, guid: c2119ac6aec126d41bdb6baed156c337, type: 2}
 --- !u!212 &212481313561413066
 SpriteRenderer:
   m_ObjectHideFlags: 1
