@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace CustomizeController
 {
@@ -36,7 +37,10 @@ namespace CustomizeController
         bool test = false;
         GameObject curGO;
         public GameObject uiCanvas;
-        public List<GameObject> Slots = new List<GameObject>();
+
+        //redo this part, base on current design, make it a dictionary could make it work.
+        //public List<GameObject> Slots = new List<GameObject>();
+        Dictionary<GameObject, Gear> inventorydic=new Dictionary<GameObject, Gear>();
 
         
         private void Awake()
@@ -46,7 +50,14 @@ namespace CustomizeController
                 _instance = this;
             }
 
-
+            //instanitate the dictionary key, temp name "itembox in"
+            var pouchGO = uiCanvas.transform.Find("ItemBoxIN");
+            Debug.Log(pouchGO);
+            foreach(Transform ts in pouchGO.transform)
+            {
+                inventorydic.Add(ts.gameObject,null);
+                Debug.Log(ts.gameObject);
+            }
         }
 
         private void Start()
@@ -123,9 +134,8 @@ namespace CustomizeController
             {
                 try
                 {
-                    curGO.
-
-    }
+                    Debug.Log(inventorydic[curGO]);
+                }
                 catch (System.Exception)
                 {
 
@@ -143,7 +153,11 @@ namespace CustomizeController
             localgear=player.GetComponent<HeroStatus>().Gears;
             for(int i = 0; i < localgear.Count; i++)
             {
-                Slots[i].GetComponent<Image>().sprite = localgear[i].icon;
+                //find the key at index i. then apply the key with value localgear at index [i]
+                var dickey=inventorydic.ElementAt(i).Key;
+                inventorydic[dickey] = localgear[i];
+                //use ElementAt() reqite system.linq namingspace
+                dickey.GetComponent<Image>().sprite = localgear[i].icon;
             }
         }
     }

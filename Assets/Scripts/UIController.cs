@@ -46,4 +46,9 @@ public class UIController  {
             uigo.SetActive(!active);
         }
     }
+
+    public static void Equip(GameObject go,Gear gear)
+    {
+
+    }
 }
