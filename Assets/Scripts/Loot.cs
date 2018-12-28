@@ -7,6 +7,7 @@ public class Loot : MonoBehaviour {
     private Gear _gear;
     [SerializeField]
     private ItemCollection iteamCollection;
+
     public Gear Gear
     {
         get { return _gear; }
@@ -29,6 +30,7 @@ public class Loot : MonoBehaviour {
     {
         if (col.tag == "Player")
         {
+            col.transform.gameObject.GetComponent<HeroStatus>().AddGear(_gear);
             Debug.Log("player loot this, I will be destory");
             Destroy(this.gameObject);
         }

@@ -11,4 +11,6 @@ public class Gear : ScriptableObject
     public int strength;
     public int inteligence;
 
+   
+    
 }

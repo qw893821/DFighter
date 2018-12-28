@@ -3,3 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Armor{Head,Shoulder,Bottom,Shoes,Belt}
+
+//not only enum stays here
+
+

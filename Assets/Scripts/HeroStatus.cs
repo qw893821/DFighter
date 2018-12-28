@@ -6,25 +6,28 @@ public class HeroStatus : MonoBehaviour, IStatus
 {    
 
     private float attackModifer;
-    //private int maxHealth;
     private bool hideUI;
     
-    public float AttackPower { get { return /*attackPower* attackModifer*/_hero.AttackPower*attackModifer; }  }
-    public int Health { get { return /*health*/_hero.Health; }  }
+
+    public float AttackPower { get { return _hero.AttackPower*attackModifer; }  }
+    public int Health { get { return _hero.Health; }  }
 
     
-    public int MaxHealth{get { return /*maxHealth*/_hero.MaxHealth; }  }
+    public int MaxHealth{get { return _hero.MaxHealth; }  }
     public bool _________;
 
     //test scriptable object test
     [SerializeField]
     private Characters _hero;
 
+    //gear list test;
+    private List<Gear> gears=new List<Gear>();
+    public List<Gear> Gears { get { return gears; } }
 
     public Characters Char { get { return _hero; } set { } }
 
 
-
+    
     public void Damaged(float val)
     {
         
@@ -39,6 +42,22 @@ public class HeroStatus : MonoBehaviour, IStatus
 	
 	// Update is called once per frame
 	void Update () {
+        HeroTestfunc(_hero);
+    }
+
+
+    //let the item determines which type it is?
+    // them add to the inventory?
+    //or, just add the item to the inventory.
+    void HeroTestfunc(ScriptableObject so) 
+    { 
         
-	}
+    }
+
+    public void AddGear(Gear gear)
+    {
+        Debug.Log(gears.Count);
+        gears.Add(gear);
+        Debug.Log(gears.Count);
+    }
 }

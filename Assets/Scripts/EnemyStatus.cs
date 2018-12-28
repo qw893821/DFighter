@@ -70,7 +70,6 @@ public class EnemyStatus : MonoBehaviour,IStatus
         int returnVal;
         returnVal = (int)inputVal;
         hideUI = false;
-        Debug.Log("change show ui");
         //when hit&display is on, reset the timer keep showing ui;
         displayUITimer = displayDuration;
         return returnVal;
@@ -119,3 +118,4 @@ public class EnemyStatus : MonoBehaviour,IStatus
         GameManager.GM.DeathHandler -= deathcollection;
     }
 }
+

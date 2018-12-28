@@ -125,7 +125,6 @@ public class HeroAction : MonoBehaviour,ICharAction {
         //this part controls the actul fireball
         if (Input.GetButton("Fire1")&&firable)
         {
-            Debug.Log("fire");
             var fb=Instantiate(Fireball,transform.position,Quaternion.identity);
             fb.GetComponent<Projectile>().AttackPower = hs.AttackPower;
             firable = false;

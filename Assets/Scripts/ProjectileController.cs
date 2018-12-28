@@ -10,8 +10,8 @@ namespace CustomizeController
 
     public class ProjectileController : MonoBehaviour
     {
-        public static ProjectileMoveDg PMoveDg;
-        public static UIDisplayDg UIdisplay;
+        public static event ProjectileMoveDg PMoveDg;
+        public static event UIDisplayDg UIdisplay;
 
         // Use this for initialization
 

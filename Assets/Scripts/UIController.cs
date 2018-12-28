@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIController  {
 
+    //need some work to fix this long long argument list
 	public static void UIDisplayHandler(bool unshow,GameObject uigo,string uiname,float currentVal,float maxVal,float normalSize)
     {
         if (!unshow)
@@ -33,5 +34,16 @@ public class UIController  {
     private static float UIResizer(float currentVal,float maxVal,float normalSize)
     {
         return normalSize*(currentVal / maxVal);
+    }
+
+    public static void ActiveUIDisplayerHandler(GameObject uigo,string inputname)
+    {
+        bool active;
+        active = uigo.activeInHierarchy;
+        if (Input.GetKeyDown(inputname))
+        {
+            
+            uigo.SetActive(!active);
+        }
     }
 }

@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour,IProjectile {
         duration = 4.0f;
         selfTimer = duration;
         end = false;
-        Debug.Log(AttackPower);
+
 	}
 	
 	// Update is called once per frame
@@ -45,10 +45,8 @@ public class Projectile : MonoBehaviour,IProjectile {
         CustomizedTimer.AutoTrigger(ref end,ref selfTimer,duration);
         if (end)
         {
-            Debug.Log("end life");
             Destroy(this.gameObject);
         }
-        
     }
 
     private void OnEnable()
@@ -65,13 +63,11 @@ public class Projectile : MonoBehaviour,IProjectile {
     {
         if (other.tag == "Enemy")
         {
-            Debug.Log("hit enemy");
             var hitES=other.gameObject.GetComponent<EnemyStatus>();
             hitES.Damaged(AttackPower);
         }
         else if (other.tag=="Ground")
         {
-            Debug.Log("hit ground");
             Destroy(this.gameObject);
         }
     }
