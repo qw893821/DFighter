@@ -4,7 +4,7 @@ using UnityEngine;
 using CustomizeController;
 using UnityEngine.UI;
 
-public class EnemyStatus : MonoBehaviour,IStatus
+public class EnemyStatus : MonoBehaviour
 {
     private float attackModifer;
     private bool hideUI;
@@ -21,7 +21,7 @@ public class EnemyStatus : MonoBehaviour,IStatus
 
     [SerializeField]
     private Characters _char;
-
+    //need to be replaced with enemy scriptableobject?
     public Characters Char
     {
         get

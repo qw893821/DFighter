@@ -41,7 +41,11 @@ namespace CustomizeController
         //redo this part, base on current design, make it a dictionary could make it work.
         //public List<GameObject> Slots = new List<GameObject>();
         Dictionary<GameObject, Gear> inventorydic=new Dictionary<GameObject, Gear>();
+        private List<Gear> gears = new List<Gear>();
 
+        public bool _____________;
+
+        public GameObject slot1;
         
         private void Awake()
         {
@@ -51,20 +55,25 @@ namespace CustomizeController
             }
 
             //instanitate the dictionary key, temp name "itembox in"
+            #region CreateInventory
             var pouchGO = uiCanvas.transform.Find("ItemBoxIN");
-            Debug.Log(pouchGO);
-            foreach(Transform ts in pouchGO.transform)
+            foreach (Transform ts in pouchGO.transform)
             {
-                inventorydic.Add(ts.gameObject,null);
-                Debug.Log(ts.gameObject);
-            }
+                inventorydic.Add(ts.gameObject, null);
+            } 
+            #endregion
+            
+            
         }
 
         private void Start()
         {
             
             infoUI.SetActive(false);
-            
+
+            //get the instantiated reference
+            //this will not matter when hero is not instantiated.
+            gears = player.GetComponent<HeroStatus>().Char.Inventory;
         }
 
 
@@ -76,7 +85,16 @@ namespace CustomizeController
             //test ui,works.
             UIController.ActiveUIDisplayerHandler(uiCanvas,"i");
 
-            InventoryUpdate();
+            //Inventory.InventoryUpdate(gears,inventorydic);
+            Inventory.InventoryUpdate(gears, inventorydic);
+            try
+            {
+                Debug.Log(player.GetComponent<HeroStatus>().Char.Inventory[1]);
+            }
+            catch(System.Exception ex)
+            {
+                Debug.Log(ex.StackTrace);
+            }
         }
 
         void CameraFollow(GameObject camera, GameObject player)
@@ -130,11 +148,13 @@ namespace CustomizeController
 
         public void InventoryTestFunc()
         {
+            var hs = player.GetComponent<HeroStatus>();
             if (test)
             {
                 try
                 {
-                    Debug.Log(inventorydic[curGO]);
+                    Inventory.InventoryConsume(inventorydic,curGO,true, hs);
+                    
                 }
                 catch (System.Exception)
                 {
@@ -146,19 +166,19 @@ namespace CustomizeController
 
 
         //inventory icon update func
-        void InventoryUpdate()
-        {
-            List<Gear> localgear =new List<Gear>();
+        //void InventoryUpdate()
+        //{
+        //    List<Gear> localgear =new List<Gear>();
 
-            localgear=player.GetComponent<HeroStatus>().Gears;
-            for(int i = 0; i < localgear.Count; i++)
-            {
-                //find the key at index i. then apply the key with value localgear at index [i]
-                var dickey=inventorydic.ElementAt(i).Key;
-                inventorydic[dickey] = localgear[i];
-                //use ElementAt() reqite system.linq namingspace
-                dickey.GetComponent<Image>().sprite = localgear[i].icon;
-            }
-        }
+        //    localgear=player.GetComponent<HeroStatus>().Gears;
+        //    for(int i = 0; i < localgear.Count; i++)
+        //    {
+        //        //find the key at index i. then apply the key with value localgear at index [i]
+        //        var dickey=inventorydic.ElementAt(i).Key;
+        //        inventorydic[dickey] = localgear[i];
+        //        //use ElementAt() reqite system.linq namingspace
+        //        dickey.GetComponent<Image>().sprite = localgear[i].icon;
+        //    }
+        //}
     }
 }

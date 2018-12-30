@@ -85,12 +85,13 @@ public class HeroAction : MonoBehaviour,ICharAction {
 	// Update is called once per frame
 	void Update ()
     {
-        AnimController();
+        //AnimController();
         CustomizedTimer.ButtonTrigger("Jump",ref jump,ref jumpTimer, jumpTime);
     }
 
     private void FixedUpdate()
     {
+        AnimController();
         Jump(); 
     }
 
@@ -196,5 +197,15 @@ public class HeroAction : MonoBehaviour,ICharAction {
         {
             ground = true;
         }
+    }
+
+    void OnGround()
+    {
+        ground = true;
+    }
+
+    void LeaveGround()
+    {
+        ground = false;
     }
 }

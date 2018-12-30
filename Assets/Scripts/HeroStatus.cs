@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroStatus : MonoBehaviour, IStatus
+public class HeroStatus : MonoBehaviour
 {    
 
     private float attackModifer;
@@ -18,13 +18,11 @@ public class HeroStatus : MonoBehaviour, IStatus
 
     //test scriptable object test
     [SerializeField]
-    private Characters _hero;
+    private Hero _hero;
 
     //gear list test;
-    private List<Gear> gears=new List<Gear>();
-    public List<Gear> Gears { get { return gears; } }
 
-    public Characters Char { get { return _hero; } set { } }
+    public Hero Char { get { return _hero; } set { } }
 
 
     
@@ -32,16 +30,21 @@ public class HeroStatus : MonoBehaviour, IStatus
     {
         
     }
+    private void Awake()
+    {
+        _hero = Instantiate(_hero);
+    }
 
     // Use this for initialization
     void Start () {
         attackModifer = 2.0f;
         //make it clone, so no worry when testing
-        _hero = Instantiate(_hero);   
+           
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    
+    // Update is called once per frame
+    void Update () {
         HeroTestfunc(_hero);
     }
 
@@ -56,8 +59,6 @@ public class HeroStatus : MonoBehaviour, IStatus
 
     public void AddGear(Gear gear)
     {
-        Debug.Log(gears.Count);
-        gears.Add(gear);
-        Debug.Log(gears.Count);
+        _hero.AddInventory(gear);
     }
 }
