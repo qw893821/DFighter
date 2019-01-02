@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CustomizeController;
 public class Loot : MonoBehaviour {
 
     private Gear _gear;
@@ -30,7 +31,11 @@ public class Loot : MonoBehaviour {
     {
         if (col.tag == "Player")
         {
+            //send message to update the inventory
+            GameManager.GM.SendMessage("UpdateInventory", _gear);
+
             col.transform.gameObject.GetComponent<HeroStatus>().AddGear(_gear);
+            
             Debug.Log("player loot this, I will be destory");
             Destroy(this.gameObject);
         }

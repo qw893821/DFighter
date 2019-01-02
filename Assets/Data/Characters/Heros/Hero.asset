@@ -15,10 +15,14 @@ MonoBehaviour:
   AttackPower: 10
   Health: 100
   MaxHealth: 100
+  _inventory:
+  - {fileID: 11400000, guid: 707e4fcf9309afe49b25ac65daf92bfc, type: 2}
+  - {fileID: 11400000, guid: 31c93e618909c564086291c39652977b, type: 2}
+  - {fileID: 11400000, guid: 708b6b6d1971c5040ba6764be93609ae, type: 2}
+  - {fileID: 11400000, guid: d299b11ad7c9f34488884a6ab783b3b1, type: 2}
+  - {fileID: 11400000, guid: 4f71435d36f104741b05e2a8b9a8b1a2, type: 2}
   _head: {fileID: 11400000, guid: 707e4fcf9309afe49b25ac65daf92bfc, type: 2}
   _bottom: {fileID: 11400000, guid: 31c93e618909c564086291c39652977b, type: 2}
   _belt: {fileID: 11400000, guid: 708b6b6d1971c5040ba6764be93609ae, type: 2}
   _shoes: {fileID: 11400000, guid: d299b11ad7c9f34488884a6ab783b3b1, type: 2}
   _shoulder: {fileID: 11400000, guid: 4f71435d36f104741b05e2a8b9a8b1a2, type: 2}
-  _inventory:
-  - {fileID: 11400000, guid: d299b11ad7c9f34488884a6ab783b3b1, type: 2}

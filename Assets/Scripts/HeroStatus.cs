@@ -39,7 +39,7 @@ public class HeroStatus : MonoBehaviour
     void Start () {
         attackModifer = 2.0f;
         //make it clone, so no worry when testing
-           
+        
 	}
 
     

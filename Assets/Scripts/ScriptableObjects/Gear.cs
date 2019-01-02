@@ -11,6 +11,22 @@ public class Gear : ScriptableObject
     public int strength;
     public int inteligence;
 
-   
-    
+
+    public int GetIndex(List<Gear> gears)
+    {
+        int index=-1;
+        if (gears != null)
+        {
+            for (int i = 0; i < gears.Count; i++)
+            {
+                if (gears[i] == this)
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
 }

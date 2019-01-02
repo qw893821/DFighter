@@ -73,7 +73,7 @@ namespace CustomizeController
 
             //get the instantiated reference
             //this will not matter when hero is not instantiated.
-            gears = player.GetComponent<HeroStatus>().Char.Inventory;
+            //gears = player.GetComponent<HeroStatus>().Char.Inventory;
         }
 
 
@@ -86,15 +86,7 @@ namespace CustomizeController
             UIController.ActiveUIDisplayerHandler(uiCanvas,"i");
 
             //Inventory.InventoryUpdate(gears,inventorydic);
-            Inventory.InventoryUpdate(gears, inventorydic);
-            try
-            {
-                Debug.Log(player.GetComponent<HeroStatus>().Char.Inventory[1]);
-            }
-            catch(System.Exception ex)
-            {
-                Debug.Log(ex.StackTrace);
-            }
+            //Inventory.InventoryAdd(gear, inventorydic);
         }
 
         void CameraFollow(GameObject camera, GameObject player)
@@ -164,21 +156,12 @@ namespace CustomizeController
             }
         }
 
-
-        //inventory icon update func
-        //void InventoryUpdate()
-        //{
-        //    List<Gear> localgear =new List<Gear>();
-
-        //    localgear=player.GetComponent<HeroStatus>().Gears;
-        //    for(int i = 0; i < localgear.Count; i++)
-        //    {
-        //        //find the key at index i. then apply the key with value localgear at index [i]
-        //        var dickey=inventorydic.ElementAt(i).Key;
-        //        inventorydic[dickey] = localgear[i];
-        //        //use ElementAt() reqite system.linq namingspace
-        //        dickey.GetComponent<Image>().sprite = localgear[i].icon;
-        //    }
-        //}
+        /*public */void UpdateInventory(Gear gear)
+        {
+            //here i update inventory
+            Debug.Log("here i update inventory");
+            Inventory.InventoryAdd(gear, inventorydic);
+        }
+        
     }
 }
