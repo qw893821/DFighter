@@ -36,16 +36,17 @@ namespace CustomizeController
 
         bool test = false;
         GameObject curGO;
+
         public GameObject uiCanvas;
 
         //redo this part, base on current design, make it a dictionary could make it work.
         //public List<GameObject> Slots = new List<GameObject>();
         Dictionary<GameObject, Gear> inventorydic=new Dictionary<GameObject, Gear>();
+        //Dictionary<GameObject, Gear> bodySlots = new Dictionary<GameObject, Gear>();
         private List<Gear> gears = new List<Gear>();
 
         public bool _____________;
 
-        public GameObject slot1;
         
         private void Awake()
         {
@@ -55,15 +56,49 @@ namespace CustomizeController
             }
 
             //instanitate the dictionary key, temp name "itembox in"
+            //#region CreatebodySlots
+            //var bodyGO = GameObject.Find("UICanvas").transform.Find("PlayerGearUI");
+            //foreach (Transform ts in bodyGO.transform)
+            //{
+            //    bodySlots.Add(ts.gameObject, null);
+            //}
+            //#endregion
+            /*
+             * mixing the inventory and gear slots.
+             * first five will be the slots for current equiped gear
+             * and furture proof. when add more solt, will auto add more pair to the dictionary.
+             */
+            #region CreatebodySlots
+            var bodyGO = GameObject.Find("UICanvas").transform.Find("PlayerGearUI");
+            foreach (Transform ts in bodyGO.transform)
+            {
+                inventorydic.Add(ts.gameObject, null);
+            }
+            #endregion
             #region CreateInventory
             var pouchGO = uiCanvas.transform.Find("ItemBoxIN");
             foreach (Transform ts in pouchGO.transform)
             {
                 inventorydic.Add(ts.gameObject, null);
-            } 
+            }
             #endregion
-            
-            
+
+            //var hs = player.GetComponent<HeroStatus>();
+            //var key0 = inventorydic.ElementAt(0).Key;
+            //inventorydic[key0] = hs.Char.Head;
+            //var key3 = inventorydic.ElementAt(1).Key;
+            //inventorydic[key3] = hs.Char.Shoulder;
+            //var key1 = inventorydic.ElementAt(2).Key;
+            //inventorydic[key1] = hs.Char.Bottom;
+            //var key4 = inventorydic.ElementAt(3).Key;
+            //inventorydic[key4] = hs.Char.Belt;
+            //var key2 = inventorydic.ElementAt(4).Key;
+            //inventorydic[key2] = hs.Char.Shoes;
+            //foreach (KeyValuePair<GameObject, Gear> pair in inventorydic.Where(pair=>pair.Value!=null))
+            //{
+            //    pair.Key.GetComponent<Image>().sprite = pair.Value.icon;
+            //}
+            Inventory.InitialGear(inventorydic,player);
         }
 
         private void Start()
@@ -74,6 +109,24 @@ namespace CustomizeController
             //get the instantiated reference
             //this will not matter when hero is not instantiated.
             //gears = player.GetComponent<HeroStatus>().Char.Inventory;
+
+            //#region testshowgear
+            //var hs = player.GetComponent<HeroStatus>();
+            //var key0 = bodySlots.ElementAt(0).Key;
+            //bodySlots[key0] = hs.Char.Head;
+            //var key1 = bodySlots.ElementAt(1).Key;
+            //bodySlots[key1] = hs.Char.Bottom;
+            //var key2 = bodySlots.ElementAt(2).Key;
+            //bodySlots[key2] = hs.Char.Shoes;
+            //var key3 = bodySlots.ElementAt(3).Key;
+            //bodySlots[key3] = hs.Char.Shoulder;
+            //var key4 = bodySlots.ElementAt(4).Key;
+            //bodySlots[key4] = hs.Char.Belt;
+            //#endregion
+            //foreach (KeyValuePair<GameObject, Gear> pair in bodySlots)
+            //{
+            //    pair.Key.GetComponent<Image>().sprite = pair.Value.icon;
+            //}
         }
 
 
@@ -87,6 +140,15 @@ namespace CustomizeController
 
             //Inventory.InventoryUpdate(gears,inventorydic);
             //Inventory.InventoryAdd(gear, inventorydic);
+
+            //update the gear ui
+            
+            //foreach (KeyValuePair<GameObject, Gear> pair in bodySlots)
+            //{
+            //    pair.Key.GetComponent<Image>().sprite = pair.Value.icon;
+            //}
+            
+
         }
 
         void CameraFollow(GameObject camera, GameObject player)
@@ -145,8 +207,9 @@ namespace CustomizeController
             {
                 try
                 {
-                    Inventory.InventoryConsume(inventorydic,curGO,true, hs);
-                    
+                    //Inventory.InventoryConsume(inventorydic,curGO,true, hs);
+                    Inventory.InventoryConsume(inventorydic, curGO,hs);
+                    Inventory.InitialGear(inventorydic, player);
                 }
                 catch (System.Exception)
                 {

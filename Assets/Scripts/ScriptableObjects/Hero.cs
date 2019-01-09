@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomizeController;
 [CreateAssetMenu(fileName ="Character",menuName ="Character/Hero")]
 public class Hero : Characters {
     
@@ -40,7 +41,7 @@ public class Hero : Characters {
     }
 
     
-    public List<Gear> Inventory { get { return _inventory; } }
+    public List<Gear> Inven { get { return _inventory; } }
 
     //target is gear player picked, origin is the gear player equiped
     //change it, return a Gear? type, then apply the return value to mousrtarget?
@@ -52,30 +53,29 @@ public class Hero : Characters {
         int gearIndex=-1;
         switch (armor) {
             case Armor.Head:
-                gearIndex=Head.GetIndex(Inventory);
+                gearIndex=Head.GetIndex(Inven);
                 Head = mousetarget;
                 break;
             case Armor.Shoulder:
-                gearIndex = Shoulder.GetIndex(Inventory);
+                gearIndex = Shoulder.GetIndex(Inven);
                 Shoulder = mousetarget;
                 break;
             case Armor.Bottom:
-                gearIndex = Bottom.GetIndex(Inventory);
+                gearIndex = Bottom.GetIndex(Inven);
                 Bottom = mousetarget;                
                 break;
-            case Armor.Shoes:
-                gearIndex = Shoes.GetIndex(Inventory);
-                Shoes = mousetarget;
-                break;
             case Armor.Belt:
-                gearIndex = Belt.GetIndex(Inventory);
+                gearIndex = Belt.GetIndex(Inven);
                 Belt = mousetarget;
+                break;
+            case Armor.Shoes:
+                gearIndex = Shoes.GetIndex(Inven);
+                Shoes = mousetarget;
                 break;
             default:
                 break;
         }
         //just try
-        Debug.Log(gearIndex);
         return gearIndex;
         
     }

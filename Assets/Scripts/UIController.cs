@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController  {
 
@@ -50,5 +51,10 @@ public class UIController  {
     public static void Equip(GameObject go,Gear gear)
     {
 
+    }
+
+    public static void IconMatch<T>(GameObject go,T t) where T:Gear    
+    {
+        go.GetComponent<Image>().sprite = t.icon;
     }
 }

@@ -9,17 +9,6 @@ public class Inventory {
     //current plan, first 5 element will be default gear, so ignore the first five now
     public static void InventoryAdd(Gear gear,Dictionary<GameObject,Gear> dic)
     {
-        //if (gears.Count != 0)
-        //{
-        //    for (int i = 5; i < gears.Count; i++)
-        //    {
-        //        //find the key at index i. then apply the key with value localgear at index [i]
-        //        var dickey = dic.ElementAt(i).Key;
-        //        dic[dickey] = gears[i];
-        //        //use ElementAt() reqite system.linq namingspace
-        //        dickey.GetComponent<Image>().sprite = gears[i].icon;
-        //    }
-        //}
         //when input gear is not null, add it to the first null dic element and break
         if (gear!=null)
         {
@@ -36,24 +25,18 @@ public class Inventory {
         }
     }
 
-    public static void InventoryConsume<t>(Dictionary<GameObject, Gear> dic,GameObject targetSlotGO,bool isEmpty /*if that gear slot is empty*/,t hs) where t:HeroStatus
+    public static void InventoryConsume<t>(Dictionary<GameObject, Gear> dic,GameObject targetSlotGO/*,bool isEmpty temp remove*/,t hs) where t:HeroStatus
     {
-        if (isEmpty)
-        {
-            //
             if (dic.ContainsKey(targetSlotGO)&& dic[targetSlotGO]!=null)
             {
                 //let replace player equiped gear with target gear
                 #region testgearswitch
                 try
                 {
-                    //hs.Char.ApplyEquipment(dic[targetSlotGO],hs.Char.Head);
-                    //hs.Char.ApplyEquipment(dic[targetSlotGO]);
-                    //hs.Char.Head = dic[targetSlotGO];
                     var localchar= hs.Char;
-                    Swap(dic, targetSlotGO, localchar.Inventory[localchar.ApplyEquipment(dic[targetSlotGO])]);
+                    Swap(dic, targetSlotGO, localchar.Inven[localchar.ApplyEquipment(dic[targetSlotGO])]);
                 }
-                catch(System.Exception ex)
+                catch(Exception ex)
                 {
                     Debug.Log(ex.StackTrace);
                 }
@@ -61,29 +44,51 @@ public class Inventory {
                 #endregion
             }
             else { Debug.Log("the item is not here test"); }
-        }
     }
 
     public static void Swap(/* input dictionary*/Dictionary<GameObject, Gear> dic,/*input gameobject*/GameObject inputTarget,/*player equiped target*/Gear originalTarget)
     {
-        //check if the input value is invalid
+        //check if the input value is valid
         if (dic != null&&inputTarget!=null&&originalTarget!=null)
         {
-            //GameObject key=null;
-            //foreach(KeyValuePair<GameObject,Gear> pair in dic)
-            //{
-            //    if (pair.Value == inputTarget)
-            //    {
-            //        key = pair.Key;
-            //        break;
-            //    }
-            //}
-            //if (key != null)
-            //{
-            //    dic[key] = originalTarget;
-            //}
             dic[inputTarget] = originalTarget;
-            inputTarget.GetComponent<Image>().sprite = originalTarget.icon;
+            UIController.IconMatch(inputTarget, originalTarget);
+        }
+    }
+
+    //some wild code here. need update later
+    public static void InitialGear(Dictionary<GameObject, Gear> dic,GameObject player)
+    {
+        var hs = player.GetComponent<HeroStatus>();
+        //var armorTypeCount = Enum.GetNames(typeof(Armor)).Length;
+        //var key0 = dic.ElementAt(0).Key;
+        //dic[key0] = hs.Char.Head;
+        //var key1 = dic.ElementAt(1).Key;
+        //dic[key1] = hs.Char.Shoulder;
+        //var key2 = dic.ElementAt(2).Key;
+        //dic[key2] = hs.Char.Bottom;
+        //var key3 = dic.ElementAt(3).Key;
+        //dic[key3] = hs.Char.Belt;
+        //var key4 = dic.ElementAt(4).Key;
+        //dic[key4] = hs.Char.Shoes;
+        var key0 = dic.ElementAt(0).Key;
+        dic[key0] = hs.Char.Head;
+        var key1 = dic.ElementAt(1).Key;
+        dic[key1] = hs.Char.Shoulder;
+        var key2 = dic.ElementAt(2).Key;
+        dic[key2] = hs.Char.Bottom;
+        var key3 = dic.ElementAt(3).Key;
+        dic[key3] = hs.Char.Belt;
+        var key4 = dic.ElementAt(4).Key;
+        dic[key4] = hs.Char.Shoes;
+        //for(var i = 0; i < armorTypeCount; i++)
+        //{
+        //    var key = dic.ElementAt(i).Key;
+        //    dic[key]=
+        //}
+        foreach (KeyValuePair<GameObject, Gear> pair in dic.Where(pair => pair.Value != null))
+        {
+            pair.Key.GetComponent<Image>().sprite = pair.Value.icon;
         }
     }
 }
